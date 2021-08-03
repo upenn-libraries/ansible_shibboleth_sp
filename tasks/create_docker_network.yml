@@ -1,0 +1,5 @@
+---
+- name: Create the shibboleth network
+  docker_network:
+    driver: overlay
+    name: shibboleth

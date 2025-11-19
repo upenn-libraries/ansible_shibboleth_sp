@@ -47,3 +47,5 @@ shibboleth:
         values:
           sp_key_pem: "1234"
         version: 1
+
+shibboleth_enable_deploy_logs: false

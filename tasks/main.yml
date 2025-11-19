@@ -62,7 +62,7 @@
     SHIBBOLETH_SP_SIGNING_CERT_VERSION: "{{ shibboleth.templates.secrets.sp_signing_cert.version }}"
     SHIBBOLETH_SP_SIGNING_KEY_VERSION: "{{ shibboleth.templates.secrets.sp_signing_key.version }}"
     SHIBBOLETH_SWARM_NODE_CONSTRAINT: "{{ shibboleth.swarm_node_constraint }}"
-  no_log: true
+  no_log: {{ shibboleth_enable_deploy_logs }}
   tags:
     - docker
     - shibboleth

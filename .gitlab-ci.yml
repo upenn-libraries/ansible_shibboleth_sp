@@ -4,7 +4,7 @@ variables:
 
 include:
   - component: $CI_SERVER_FQDN/devops/gitlab/components/sast/secret_scan@2.5.0
-  - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_build@0.1.48
+  - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_build@~latest
     inputs:
       ci_requirements_file: ".gitlab/ci-requirements.yml"
       docker_build_context: "files/"
@@ -12,9 +12,6 @@ include:
         ${IMAGE_TAG_LATEST} ${CI_COMMIT_TAG} ${CI_COMMIT_REF_SLUG} ${CI_COMMIT_SHA}
         ${CI_COMMIT_SHORT_SHA} ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}
         ${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}
-      matrix:
-        - RUNNER: build
-          DOCKER_BUILD_PLATFORM: "linux/amd64"
       needs_build:
         - secret_detection
       platforms: '["linux/amd64"]'
@@ -23,8 +20,6 @@ include:
       ci_requirements_file: ".gitlab/ci-requirements.yml"
       needs:
         - "build_and_push_docker_images"
-        - job: "amend_manifest"
-          optional: true
       stage: "test"
   - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_finalize@~latest
     inputs:
@@ -47,4 +42,3 @@ stages:
     - when: on_success
 
 build_and_push_docker_images: *latest_on_default_branch
-amend_manifest: *latest_on_default_branch

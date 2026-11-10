@@ -4,7 +4,7 @@ variables:
 
 include:
   - component: $CI_SERVER_FQDN/devops/gitlab/components/sast/secret_scan@2.5.0
-  - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_build@~latest
+  - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_build@0.1.48
     inputs:
       ci_requirements_file: ".gitlab/ci-requirements.yml"
       docker_build_context: "files/"
@@ -22,7 +22,9 @@ include:
     inputs:
       ci_requirements_file: ".gitlab/ci-requirements.yml"
       needs:
-        - "amend_manifest"
+        - "build_and_push_docker_images"
+        - job: "amend_manifest"
+          optional: true
       stage: "test"
   - component: $CI_SERVER_FQDN/devops/gitlab/components/docker/stage_finalize@~latest
     inputs:
